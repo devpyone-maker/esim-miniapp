@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Royal eSIM - Verificador de Compatibilidade</title>
+<title>Royal eSIM - Portal Completo</title>
 
 <style>
 :root{
@@ -27,6 +27,7 @@ body{
   line-height:1.5;
 }
 
+/* HEADER */
 .header{
   padding:20px;
   text-align:center;
@@ -43,11 +44,13 @@ body{
   font-size:14px;
 }
 
+/* CONTAINER */
 .container{
   padding:20px;
   padding-bottom:90px;
 }
 
+/* CARD */
 .card{
   background:var(--card);
   border-radius:16px;
@@ -66,6 +69,7 @@ body{
   display:block;
 }
 
+/* TITLES */
 .title{
   color:var(--primary);
   margin-bottom:15px;
@@ -74,6 +78,44 @@ body{
   gap:10px;
 }
 
+.title-danger{
+  color:var(--danger);
+}
+
+.title-warning{
+  color:var(--warning);
+}
+
+.title-success{
+  color:var(--success);
+}
+
+/* LIST */
+.list{
+  list-style:none;
+}
+
+.list li{
+  padding:12px;
+  background:var(--secondary);
+  margin-bottom:10px;
+  border-radius:10px;
+  border-left:4px solid var(--primary);
+}
+
+.list-danger li{
+  border-left-color:var(--danger);
+}
+
+.list-warning li{
+  border-left-color:var(--warning);
+}
+
+.list-success li{
+  border-left-color:var(--success);
+}
+
+/* SEARCH */
 input, select{
   width:100%;
   padding:14px;
@@ -107,7 +149,49 @@ button.secondary{
   margin-top:10px;
 }
 
-/* MENU */
+/* IFRAME */
+iframe{
+  width:100%;
+  height:400px;
+  border:none;
+  border-radius:12px;
+  background:#000;
+  margin-top:15px;
+}
+
+/* CONTENT */
+.content{
+  margin-top:15px;
+}
+
+.content p{
+  margin-bottom:15px;
+  color:var(--muted);
+}
+
+.content strong{
+  color:var(--text);
+}
+
+.highlight-box{
+  background:rgba(255, 71, 87, 0.1);
+  border-left:4px solid var(--danger);
+  padding:15px;
+  border-radius:8px;
+  margin:15px 0;
+}
+
+.highlight-box.warning{
+  background:rgba(255, 165, 2, 0.1);
+  border-left-color:var(--warning);
+}
+
+.highlight-box.success{
+  background:rgba(46, 213, 115, 0.1);
+  border-left-color:var(--success);
+}
+
+/* MENU BOTTOM */
 .menu{
   position:fixed;
   bottom:0;
@@ -143,7 +227,7 @@ button.secondary{
   color:var(--primary);
 }
 
-/* RESULT CARD */
+/* COMPATIBILITY RESULT */
 .result-card{
   background:var(--secondary);
   border-radius:12px;
@@ -222,6 +306,30 @@ button.secondary{
   color:var(--warning);
 }
 
+/* SEARCH SUGGESTIONS */
+.suggestions{
+  display:grid;
+  grid-template-columns:repeat(2, 1fr);
+  gap:10px;
+  margin-top:15px;
+}
+
+.suggestion-btn{
+  padding:10px;
+  background:var(--secondary);
+  border:none;
+  border-radius:8px;
+  color:var(--text);
+  cursor:pointer;
+  text-align:center;
+  transition:background 0.2s;
+}
+
+.suggestion-btn:hover{
+  background:var(--primary);
+  color:#000;
+}
+
 /* MODEL LIST */
 .model-list{
   display:none;
@@ -251,25 +359,6 @@ button.secondary{
   background:rgba(0,179,255,0.3);
 }
 
-/* SCROLLBAR */
-::-webkit-scrollbar {
-  width:8px;
-}
-
-::-webkit-scrollbar-track {
-  background:var(--secondary);
-  border-radius:10px;
-}
-
-::-webkit-scrollbar-thumb {
-  background:var(--primary);
-  border-radius:10px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background:#0099cc;
-}
-
 /* COMPATIBILITY GRID */
 .compatibility-grid {
   display: grid;
@@ -279,15 +368,17 @@ button.secondary{
   max-height: 300px;
   overflow-y: auto;
   padding: 10px;
+  background: var(--secondary);
+  border-radius: 12px;
 }
 
 .compatibility-item {
-  background: var(--secondary);
-  padding: 10px;
+  background: var(--card);
+  padding: 15px;
   border-radius: 8px;
   text-align: center;
   cursor: pointer;
-  transition: transform 0.2s;
+  transition: all 0.2s;
   border: 2px solid transparent;
 }
 
@@ -320,22 +411,23 @@ button.secondary{
   font-weight: bold;
 }
 
-.highlight-box{
-  background:rgba(255, 71, 87, 0.1);
-  border-left:4px solid var(--danger);
-  padding:15px;
-  border-radius:8px;
-  margin:15px 0;
+/* SCROLLBAR */
+::-webkit-scrollbar {
+  width:8px;
 }
 
-.highlight-box.warning{
-  background:rgba(255, 165, 2, 0.1);
-  border-left-color:var(--warning);
+::-webkit-scrollbar-track {
+  background:var(--secondary);
+  border-radius:10px;
 }
 
-.highlight-box.success{
-  background:rgba(46, 213, 115, 0.1);
-  border-left-color:var(--success);
+::-webkit-scrollbar-thumb {
+  background:var(--primary);
+  border-radius:10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background:#0099cc;
 }
 </style>
 </head>
@@ -344,19 +436,144 @@ button.secondary{
 
 <div class="header">
   <h1>Royal eSIM</h1>
-  <p>Verificador de Compatibilidade com eSIM</p>
+  <p>Portal Completo - Selecione uma aba para visualizar</p>
 </div>
 
 <div class="container">
 
-<!-- PESQUISA -->
-<div id="pesquisa" class="card active">
-  <h2 class="title">🔍 Verificar Compatibilidade</h2>
+<!-- REGRAS -->
+<div id="regras" class="card active">
+  <h2 class="title">📋 Regras do Sistema</h2>
+  <ul class="list">
+    <li>✅ Compras apenas via Pix</li>
+    <li>✅ Verifique compatibilidade do celular antes de comprar</li>
+    <li>✅ Suporte disponível no botão ajuda</li>
+    <li>❌ Não compartilhe seu eSIM com terceiros</li>
+    <li>⚠️ Violar regras pode resultar em banimento</li>
+    <li>✅ Verifique se o celular suporta eSIM</li>
+    <li>✅ Suporte somente via canal oficial</li>
+    <li>✅ Mantenha seus dados atualizados</li>
+  </ul>
+</div>
+
+<!-- TERMOS -->
+<div id="termos" class="card">
+  <h2 class="title title-danger">⚠️ Termos de Uso</h2>
+  
+  <div class="highlight-box">
+    <p><strong>LEIA COM ATENÇÃO:</strong></p>
+    <p>Não reembolsamos valores depositados após confirmação.</p>
+  </div>
+  
+  <div class="content">
+    <p><strong>1. Sistema Antifraude:</strong> Possuímos sistema antifraude ativo. Tentativas de bug, golpe ou má-fé resultam em banimento permanente e perda total do saldo.</p>
+    
+    <p><strong>2. Verificação de IMEI:</strong> É obrigação do usuário verificar se seu IMEI possui bloqueio (SSP/VIVO/CLARO) antes de adquirir eSIM.</p>
+    
+    <p><strong>3. Compatibilidade:</strong> A responsabilidade de verificar suporte a eSIM é exclusiva do comprador.</p>
+    
+    <p><strong>4. Uso Adequado:</strong> O eSIM é para uso pessoal. Revenda não autorizada acarreta em banimento imediato.</p>
+    
+    <p><strong>5. Perda de Saldo:</strong> Em caso de violação dos termos, o saldo será perdido sem direito a reembolso.</p>
+    
+    <div class="highlight-box warning">
+      <p><strong>⚠️ ATENÇÃO:</strong> Ao fazer qualquer compra, você automaticamente concorda com estes termos.</p>
+    </div>
+  </div>
+</div>
+
+<!-- TROCAS -->
+<div id="trocas" class="card">
+  <h2 class="title title-warning">🔄 Política de Trocas</h2>
+  
+  <div class="highlight-box warning">
+    <p><strong>PRAZO PARA TROCAS:</strong></p>
+    <p>⏰ Solicite troca em até <strong>15 minutos (por unidade)</strong> após a compra.</p>
+    <p><strong>Exemplo:</strong> 10 Números = 10 × 15 = 150 minutos (2 horas e 30 minutos)</p>
+  </div>
+  
+  <div class="content">
+    <p><strong>📹 Trocas Manuais:</strong> Grave em vídeo o momento de adicionar o eSIM, mostrando data/hora, e envie ao SUPORTE.</p>
+    
+    <p><strong>⏱️ Prazo Limite:</strong> Após 15 minutos por unidade, não realizamos trocas em hipótese alguma.</p>
+    
+    <p><strong>📝 Observação Importante:</strong> O material é produzido dias antes da aplicação, podendo haver QRCODE INATIVO ocasionalmente.</p>
+    
+    <p><strong>✅ Caso para Troca:</strong> CHIP ativado e sem sinal = direito à troca</p>
+    
+    <p><strong>📋 Procedimento para Troca:</strong></p>
+    <ul class="list list-warning">
+      <li>1. Solicitar troca dentro do prazo</li>
+      <li>2. Enviar comprovação em vídeo</li>
+      <li>3. Aguardar análise do suporte</li>
+      <li>4. Troca realizada em até 24h úteis</li>
+    </ul>
+  </div>
+</div>
+
+<!-- AVISOS -->
+<div id="avisos" class="card">
+  <h2 class="title">📌 Avisos Importantes</h2>
+  
+  <div class="highlight-box">
+    <p><strong>ANTES DE COMPRAR NÚMEROS PARA WHATSAPP:</strong></p>
+    <p>Verifique se o número não tem WhatsApp vinculado antes de comprar.</p>
+  </div>
+  
+  <div class="content">
+    <p><strong>📱 Compatibilidade:</strong> Certifique-se que seu dispositivo suporta eSIM antes de qualquer compra.</p>
+    
+    <p><strong>💰 Pagamento:</strong> Apenas Pix é aceito. Não trabalhamos com cartão, boleto ou outras formas.</p>
+    
+    <p><strong>🛟 Suporte:</strong> Entre em contato apenas pelo canal oficial. Não atendemos por WhatsApp pessoal ou outros meios.</p>
+    
+    <p><strong>🔒 Segurança:</strong> Nunca compartilhe QR Codes. Cada eSIM é pessoal e intransferível.</p>
+    
+    <p><strong>📋 Verificação:</strong> Use a aba "Pesquisar" para confirmar compatibilidade do seu aparelho.</p>
+    
+    <p><strong>⏰ Horário Comercial:</strong> Suporte disponível de segunda a sexta, 9h às 18h.</p>
+  </div>
+</div>
+
+<!-- COMO FUNCIONA -->
+<div id="como-funciona" class="card">
+  <h2 class="title title-success">🧭 Como Funciona</h2>
+  
+  <div class="content">
+    <p><strong>🛒 Passo a Passo para Compra:</strong></p>
+    
+    <ul class="list list-success">
+      <li><strong>1) Escolha DDD:</strong> Selecione o(s) número(s) desejados</li>
+      <li><strong>2) Adicione Saldo:</strong> Via Pix, caso necessário</li>
+      <li><strong>3) Finalize Compra:</strong> Pague com seu saldo</li>
+      <li><strong>4) Receba QR Code:</strong> Enviamos após confirmação</li>
+      <li><strong>5) Ative eSIM:</strong> Scanneie no seu dispositivo</li>
+    </ul>
+    
+    <div class="highlight-box success">
+      <p><strong>🌟 EXTRAS:</strong></p>
+    </div>
+    
+    <p><strong>👥 Afiliado:</strong> Ganhe comissão de recargas realizadas por seus indicados.</p>
+    
+    <p><strong>🏪 Revendedor:</strong> Preço diferenciado por unidade mediante cadastro.</p>
+    
+    <p><strong>🔄 Iniciar Nova Compra:</strong> Limpa o carrinho e libera reservas anteriores.</p>
+    
+    <p><strong>🔍 Verificar eSIM:</strong> Função que ajuda a saber se seu aparelho aceita eSIM.</p>
+    
+    <p><strong>🛟 Suporte:</strong> Resposta em até 24h úteis (dias comerciais).</p>
+  </div>
+</div>
+
+<!-- PESQUISA COMPLETA -->
+<div id="pesquisa" class="card">
+  <h2 class="title">🔍 Verificador de Compatibilidade</h2>
   
   <div class="highlight-box success">
-    <p><strong>📊 Estatísticas:</strong></p>
-    <p>Total de dispositivos na base: <span id="totalDevices">0</span></p>
-    <p>Dispositivos compatíveis com eSIM: <span id="compatibleDevices">0</span> <span id="compatiblePercent">(0%)</span></p>
+    <p><strong>📊 ESTATÍSTICAS DA BASE:</strong></p>
+    <p>Total de dispositivos cadastrados: <strong id="totalDevices">0</strong></p>
+    <p>Dispositivos compatíveis com eSIM: <strong id="compatibleDevices">0</strong> <span id="compatiblePercent">(0%)</span></p>
   </div>
   
   <select id="marcaSelect" onchange="atualizarModelos()">
@@ -368,10 +585,17 @@ button.secondary{
   <input id="modeloInput" placeholder="Digite o modelo ou selecione da lista" onkeyup="filtrarModelos()">
   
   <div class="compatibility-grid" id="quickSearchGrid">
-    <!-- Grid será preenchido por JavaScript -->
+    <!-- Grid preenchido por JavaScript -->
   </div>
   
   <button onclick="verificarCompatibilidade()">🔍 Verificar Compatibilidade</button>
+  
+  <div class="suggestions">
+    <div class="suggestion-btn" onclick="preencherModelo('iPhone 14')">iPhone 14</div>
+    <div class="suggestion-btn" onclick="preencherModelo('iPhone 15 Pro')">iPhone 15 Pro</div>
+    <div class="suggestion-btn" onclick="preencherModelo('Galaxy S23')">Galaxy S23</div>
+    <div class="suggestion-btn" onclick="preencherModelo('Pixel 8')">Pixel 8</div>
+  </div>
   
   <!-- RESULTADO DA COMPATIBILIDADE -->
   <div id="resultadoCompatibilidade" class="result-card">
@@ -403,22 +627,58 @@ button.secondary{
       </li>
     </ul>
     
-    <div id="detalhesCompatibilidade" style="margin-top:15px; padding-top:15px; border-top:1px solid rgba(255,255,255,0.1);"></div>
+    <div id="detalhesCompatibilidade" style="margin-top:15px; padding-top:15px; border-top:1px solid rgba(255,255,255,0.1);">
+      <!-- Detalhes preenchidos por JavaScript -->
+    </div>
+    
+    <button class="secondary" onclick="pesquisarExterno()" style="margin-top:15px;">
+      🔍 Pesquisar mais informações online
+    </button>
   </div>
+  
+  <!-- IFRAME PARA PESQUISA EXTERNA -->
+  <iframe id="framePesquisa" style="display:none; margin-top:20px;"></iframe>
 </div>
 
 </div>
 
-<!-- MENU -->
+<!-- MENU COMPLETO -->
 <div class="menu">
-  <button class="menu-item active" onclick="show('pesquisa', this)">
+  <button class="menu-item active" onclick="show('regras', this)">
+    <span class="icon">📋</span>
+    <span>Regras</span>
+  </button>
+  
+  <button class="menu-item" onclick="show('termos', this)">
+    <span class="icon">⚠️</span>
+    <span>Termos</span>
+  </button>
+  
+  <button class="menu-item" onclick="show('trocas', this)">
+    <span class="icon">🔄</span>
+    <span>Trocas</span>
+  </button>
+  
+  <button class="menu-item" onclick="show('avisos', this)">
+    <span class="icon">📌</span>
+    <span>Avisos</span>
+  </button>
+  
+  <button class="menu-item" onclick="show('como-funciona', this)">
+    <span class="icon">🧭</span>
+    <span>Como Funciona</span>
+  </button>
+  
+  <button class="menu-item" onclick="show('pesquisa', this)">
     <span class="icon">🔍</span>
     <span>Pesquisar</span>
   </button>
 </div>
 
 <script>
-// Banco de dados completo dos dispositivos COM INFORMAÇÕES REAIS DE COMPATIBILIDADE
+// ====================
+// BANCO DE DADOS COMPLETO
+// ====================
 const devicesDB = {
   "devices": [
     {
@@ -448,11 +708,7 @@ const devicesDB = {
         {"name": "iPhone 15 Plus", "esim": true, "dual": true, "desbloqueio": false, "restricao": "Todos os modelos"},
         {"name": "iPhone 15 Pro", "esim": true, "dual": true, "desbloqueio": false, "restricao": "Todos os modelos"},
         {"name": "iPhone 15 Pro Max", "esim": true, "dual": true, "desbloqueio": false, "restricao": "Todos os modelos"},
-        {"name": "iPhone 16", "esim": true, "dual": true, "desbloqueio": false, "restricao": "Todos os modelos (100% compatível)"},
-        {"name": "iPhone 16 Plus", "esim": true, "dual": true, "desbloqueio": false, "restricao": "Todos os modelos (100% compatível)"},
-        {"name": "iPhone 16 Pro", "esim": true, "dual": true, "desbloqueio": false, "restricao": "Todos os modelos (100% compatível)"},
-        {"name": "iPhone 16 Pro Max", "esim": true, "dual": true, "desbloqueio": false, "restricao": "Todos os modelos (100% compatível)"},
-        {"name": "iPhone 16e", "esim": true, "dual": true, "desbloqueio": false, "restricao": "Todos os modelos"}
+        {"name": "iPhone 16", "esim": true, "dual": true, "desbloqueio": false, "restricao": "Todos os modelos (100% compatível)"}
       ]
     },
     {
@@ -473,41 +729,19 @@ const devicesDB = {
         {"name": "Galaxy S24", "esim": true, "dual": true, "desbloqueio": false, "restricao": "Todos os modelos (100% compatível)"},
         {"name": "Galaxy S24+", "esim": true, "dual": true, "desbloqueio": false, "restricao": "Todos os modelos (100% compatível)"},
         {"name": "Galaxy S24 Ultra", "esim": true, "dual": true, "desbloqueio": false, "restricao": "Todos os modelos (100% compatível)"},
-        {"name": "Galaxy S25", "esim": true, "dual": true, "desbloqueio": false, "restricao": "Todos os modelos (100% compatível)"},
-        {"name": "Galaxy S25+", "esim": true, "dual": true, "desbloqueio": false, "restricao": "Todos os modelos (100% compatível)"},
-        {"name": "Galaxy S25 Ultra", "esim": true, "dual": true, "desbloqueio": false, "restricao": "Todos os modelos (100% compatível)"},
         {"name": "Galaxy Note 20", "esim": true, "dual": true, "desbloqueio": true, "restricao": "Modelos internacionais"},
         {"name": "Galaxy Note 20 Ultra", "esim": true, "dual": true, "desbloqueio": true, "restricao": "Modelos internacionais"},
-        {"name": "Galaxy Z Fold2", "esim": true, "dual": true, "desbloqueio": true, "restricao": "Modelos internacionais"},
-        {"name": "Galaxy Z Fold3", "esim": true, "dual": true, "desbloqueio": true, "restricao": "Modelos internacionais"},
         {"name": "Galaxy Z Fold4", "esim": true, "dual": true, "desbloqueio": false, "restricao": "Todos os modelos"},
         {"name": "Galaxy Z Fold5", "esim": true, "dual": true, "desbloqueio": false, "restricao": "Todos os modelos"},
-        {"name": "Galaxy Z Fold6", "esim": true, "dual": true, "desbloqueio": false, "restricao": "Todos os modelos (100% compatível)"},
-        {"name": "Galaxy Z Flip3", "esim": true, "dual": true, "desbloqueio": true, "restricao": "Modelos internacionais"},
         {"name": "Galaxy Z Flip4", "esim": true, "dual": true, "desbloqueio": false, "restricao": "Todos os modelos"},
-        {"name": "Galaxy Z Flip5", "esim": true, "dual": true, "desbloqueio": false, "restricao": "Todos os modelos"},
-        {"name": "Galaxy Z Flip6", "esim": true, "dual": true, "desbloqueio": false, "restricao": "Todos os modelos (100% compatível)"},
-        // Modelos A-Series - ATENÇÃO: Muitos NÃO tem eSIM
-        {"name": "Galaxy A34 5G", "esim": true, "dual": true, "desbloqueio": true, "restricao": "Modelos específicos de mercado"},
-        {"name": "Galaxy A35 5G", "esim": true, "dual": true, "desbloqueio": true, "restricao": "Modelos específicos de mercado"},
-        {"name": "Galaxy A54 5G", "esim": true, "dual": true, "desbloqueio": true, "restricao": "Modelos específicos de mercado"},
-        {"name": "Galaxy A55 5G", "esim": true, "dual": true, "desbloqueio": true, "restricao": "Modelos específicos de mercado"},
-        {"name": "Galaxy A56 5G", "esim": true, "dual": true, "desbloqueio": true, "restricao": "Modelos específicos de mercado"}
+        {"name": "Galaxy Z Flip5", "esim": true, "dual": true, "desbloqueio": false, "restricao": "Todos os modelos"}
       ]
     },
     {
       "brand": "Google",
       "models": [
-        {"name": "Pixel 3", "esim": true, "dual": false, "desbloqueio": true, "restricao": "Todos os modelos"},
-        {"name": "Pixel 3 XL", "esim": true, "dual": false, "desbloqueio": true, "restricao": "Todos os modelos"},
-        {"name": "Pixel 3a", "esim": true, "dual": false, "desbloqueio": true, "restricao": "Todos os modelos"},
-        {"name": "Pixel 3a XL", "esim": true, "dual": false, "desbloqueio": true, "restricao": "Todos os modelos"},
-        {"name": "Pixel 4", "esim": true, "dual": false, "desbloqueio": true, "restricao": "Todos os modelos"},
-        {"name": "Pixel 4 XL", "esim": true, "dual": false, "desbloqueio": true, "restricao": "Todos os modelos"},
-        {"name": "Pixel 4a", "esim": true, "dual": false, "desbloqueio": true, "restricao": "Todos os modelos"},
         {"name": "Pixel 4a 5G", "esim": true, "dual": true, "desbloqueio": true, "restricao": "Todos os modelos"},
         {"name": "Pixel 5", "esim": true, "dual": true, "desbloqueio": true, "restricao": "Todos os modelos"},
-        {"name": "Pixel 5a 5G", "esim": true, "dual": true, "desbloqueio": true, "restricao": "Todos os modelos"},
         {"name": "Pixel 6", "esim": true, "dual": true, "desbloqueio": false, "restricao": "Todos os modelos"},
         {"name": "Pixel 6a", "esim": true, "dual": true, "desbloqueio": false, "restricao": "Todos os modelos"},
         {"name": "Pixel 6 Pro", "esim": true, "dual": true, "desbloqueio": false, "restricao": "Todos os modelos"},
@@ -515,137 +749,52 @@ const devicesDB = {
         {"name": "Pixel 7a", "esim": true, "dual": true, "desbloqueio": false, "restricao": "Todos os modelos (100% compatível)"},
         {"name": "Pixel 7 Pro", "esim": true, "dual": true, "desbloqueio": false, "restricao": "Todos os modelos (100% compatível)"},
         {"name": "Pixel 8", "esim": true, "dual": true, "desbloqueio": false, "restricao": "Todos os modelos (100% compatível)"},
-        {"name": "Pixel 8a", "esim": true, "dual": true, "desbloqueio": false, "restricao": "Todos os modelos (100% compatível)"},
         {"name": "Pixel 8 Pro", "esim": true, "dual": true, "desbloqueio": false, "restricao": "Todos os modelos (100% compatível)"},
-        {"name": "Pixel 9", "esim": true, "dual": true, "desbloqueio": false, "restricao": "Todos os modelos (100% compatível)"},
-        {"name": "Pixel 9 Pro", "esim": true, "dual": true, "desbloqueio": false, "restricao": "Todos os modelos (100% compatível)"},
-        {"name": "Pixel 9 Pro XL", "esim": true, "dual": true, "desbloqueio": false, "restricao": "Todos os modelos (100% compatível)"},
         {"name": "Pixel Fold", "esim": true, "dual": true, "desbloqueio": false, "restricao": "Todos os modelos (100% compatível)"}
       ]
     },
     {
       "brand": "Motorola",
       "models": [
-        {"name": "Razr", "esim": true, "dual": true, "desbloqueio": true, "restricao": "Modelos internacionais"},
-        {"name": "Razr 5G", "esim": true, "dual": true, "desbloqueio": true, "restricao": "Modelos internacionais"},
         {"name": "Razr 40", "esim": true, "dual": true, "desbloqueio": true, "restricao": "Modelos específicos de mercado"},
         {"name": "Razr 40 Ultra", "esim": true, "dual": true, "desbloqueio": true, "restricao": "Modelos específicos de mercado"},
-        {"name": "Edge 30 Ultra", "esim": true, "dual": true, "desbloqueio": true, "restricao": "Modelos específicos de mercado"},
-        {"name": "Edge 40 Pro", "esim": true, "dual": true, "desbloqueio": true, "restricao": "Modelos específicos de mercado"},
-        {"name": "Edge 50 Pro", "esim": true, "dual": true, "desbloqueio": true, "restricao": "Modelos específicos de mercado"}
-      ]
-    },
-    {
-      "brand": "Huawei",
-      "models": [
-        {"name": "Huawei P40", "esim": false, "dual": false, "desbloqueio": false, "restricao": "Não suporta eSIM (restrições Google)"},
-        {"name": "Huawei P40 Pro", "esim": false, "dual": false, "desbloqueio": false, "restricao": "Não suporta eSIM (restrições Google)"},
-        {"name": "Huawei Mate 40", "esim": false, "dual": false, "desbloqueio": false, "restricao": "Não suporta eSIM (restrições Google)"},
-        {"name": "Huawei Mate 40 Pro", "esim": false, "dual": false, "desbloqueio": false, "restricao": "Não suporta eSIM (restrições Google)"},
-        {"name": "Huawei Pura 70 Pro", "esim": true, "dual": true, "desbloqueio": true, "restricao": "Modelos internacionais (HarmonyOS)"}
+        {"name": "Edge 40 Pro", "esim": true, "dual": true, "desbloqueio": true, "restricao": "Modelos específicos de mercado"}
       ]
     },
     {
       "brand": "Xiaomi",
       "models": [
-        {"name": "Xiaomi 12T Pro", "esim": true, "dual": true, "desbloqueio": true, "restricao": "Modelos internacionais"},
         {"name": "Xiaomi 13", "esim": true, "dual": true, "desbloqueio": true, "restricao": "Modelos internacionais"},
-        {"name": "Xiaomi 13 Lite", "esim": true, "dual": true, "desbloqueio": true, "restricao": "Modelos internacionais"},
         {"name": "Xiaomi 13 Pro", "esim": true, "dual": true, "desbloqueio": true, "restricao": "Modelos internacionais"},
         {"name": "Xiaomi 14", "esim": true, "dual": true, "desbloqueio": true, "restricao": "Modelos internacionais"},
-        {"name": "Xiaomi 14 Pro", "esim": true, "dual": true, "desbloqueio": true, "restricao": "Modelos internacionais"},
-        {"name": "Xiaomi 14 Ultra", "esim": true, "dual": true, "desbloqueio": true, "restricao": "Modelos internacionais"},
-        {"name": "Xiaomi 14T", "esim": true, "dual": true, "desbloqueio": true, "restricao": "Modelos internacionais"},
-        {"name": "Xiaomi 14T Pro", "esim": true, "dual": true, "desbloqueio": true, "restricao": "Modelos internacionais"}
-      ]
-    },
-    {
-      "brand": "Redmi",
-      "models": [
-        {"name": "Redmi Note 13 Pro+", "esim": true, "dual": true, "desbloqueio": true, "restricao": "Modelos internacionais"},
-        {"name": "Redmi Note 14 Pro+", "esim": true, "dual": true, "desbloqueio": true, "restricao": "Modelos internacionais"}
-      ]
-    },
-    {
-      "brand": "POCO",
-      "models": [
-        {"name": "POCO F5 Pro", "esim": true, "dual": true, "desbloqueio": true, "restricao": "Modelos internacionais"},
-        {"name": "POCO X6 Pro", "esim": true, "dual": true, "desbloqueio": true, "restricao": "Modelos internacionais"},
-        {"name": "POCO X7", "esim": true, "dual": true, "desbloqueio": true, "restricao": "Modelos internacionais"}
-      ]
-    },
-    {
-      "brand": "Sony",
-      "models": [
-        {"name": "Xperia 1 IV", "esim": true, "dual": true, "desbloqueio": true, "restricao": "Modelos internacionais"},
-        {"name": "Xperia 1 V", "esim": true, "dual": true, "desbloqueio": true, "restricao": "Modelos internacionais"},
-        {"name": "Xperia 5 IV", "esim": true, "dual": true, "desbloqueio": true, "restricao": "Modelos internacionais"},
-        {"name": "Xperia 10 IV", "esim": false, "dual": false, "desbloqueio": false, "restricao": "Não suporta eSIM"},
-        {"name": "Xperia 10 V", "esim": false, "dual": false, "desbloqueio": false, "restricao": "Não suporta eSIM"}
+        {"name": "Xiaomi 14 Pro", "esim": true, "dual": true, "desbloqueio": true, "restricao": "Modelos internacionais"}
       ]
     },
     {
       "brand": "OnePlus",
       "models": [
-        {"name": "OnePlus 11", "esim": true, "dual": true, "desbloqueio": true, "restricao": "Modelos internacionais"},
         {"name": "OnePlus 12", "esim": true, "dual": true, "desbloqueio": false, "restricao": "Todos os modelos"},
-        {"name": "OnePlus 12R", "esim": true, "dual": true, "desbloqueio": false, "restricao": "Todos os modelos"},
-        {"name": "OnePlus 13", "esim": true, "dual": true, "desbloqueio": false, "restricao": "Todos os modelos (100% compatível)"}
-      ]
-    },
-    {
-      "brand": "Oppo",
-      "models": [
-        {"name": "Find X3 Pro", "esim": true, "dual": true, "desbloqueio": true, "restricao": "Modelos internacionais"},
-        {"name": "Find X5 Pro", "esim": true, "dual": true, "desbloqueio": true, "restricao": "Modelos internacionais"},
-        {"name": "Find X6 Pro", "esim": true, "dual": true, "desbloqueio": true, "restricao": "Modelos internacionais"},
-        {"name": "Find X7 Ultra", "esim": true, "dual": true, "desbloqueio": true, "restricao": "Modelos internacionais"}
-      ]
-    },
-    {
-      "brand": "Nokia",
-      "models": [
-        {"name": "Nokia X30 5G", "esim": true, "dual": true, "desbloqueio": true, "restricao": "Modelos específicos de mercado"},
-        {"name": "Nokia G60 5G", "esim": true, "dual": true, "desbloqueio": true, "restricao": "Modelos específicos de mercado"},
-        {"name": "Nokia XR21", "esim": true, "dual": true, "desbloqueio": true, "restricao": "Modelos específicos de mercado"}
-      ]
-    },
-    {
-      "brand": "Honor",
-      "models": [
-        {"name": "Honor Magic5 Pro", "esim": true, "dual": true, "desbloqueio": true, "restricao": "Modelos internacionais"},
-        {"name": "Honor Magic6 Pro", "esim": true, "dual": true, "desbloqueio": true, "restricao": "Modelos internacionais"},
-        {"name": "Honor Magic7 Pro", "esim": true, "dual": true, "desbloqueio": true, "restricao": "Modelos internacionais"}
-      ]
-    },
-    {
-      "brand": "Vivo",
-      "models": [
-        {"name": "Vivo X80 Pro", "esim": false, "dual": false, "desbloqueio": false, "restricao": "Não suporta eSIM"},
-        {"name": "Vivo X90 Pro", "esim": true, "dual": true, "desbloqueio": true, "restricao": "Modelos internacionais"},
-        {"name": "Vivo X100 Pro", "esim": true, "dual": true, "desbloqueio": true, "restricao": "Modelos internacionais"}
+        {"name": "OnePlus 12R", "esim": true, "dual": true, "desbloqueio": false, "restricao": "Todos os modelos"}
       ]
     },
     {
       "brand": "Nothing",
       "models": [
-        {"name": "Nothing Phone (2)", "esim": true, "dual": true, "desbloqueio": false, "restricao": "Todos os modelos (100% compatível)"},
-        {"name": "Nothing Phone (2a)", "esim": true, "dual": true, "desbloqueio": false, "restricao": "Todos os modelos (100% compatível)"}
-      ]
-    },
-    {
-      "brand": "Fairphone",
-      "models": [
-        {"name": "Fairphone 4", "esim": true, "dual": true, "desbloqueio": true, "restricao": "Todos os modelos"},
-        {"name": "Fairphone 5", "esim": true, "dual": true, "desbloqueio": true, "restricao": "Todos os modelos (100% compatível)"}
+        {"name": "Nothing Phone (2)", "esim": true, "dual": true, "desbloqueio": false, "restricao": "Todos os modelos (100% compatível)"}
       ]
     }
   ]
 };
 
-// Variáveis globais
+// ====================
+// VARIÁVEIS GLOBAIS
+// ====================
 let allModels = [];
 let currentModels = [];
+
+// ====================
+// FUNÇÕES PRINCIPAIS
+// ====================
 
 // Inicializar interface
 function initInterface() {
@@ -693,18 +842,16 @@ function criarQuickSearchGrid() {
   const grid = document.getElementById('quickSearchGrid');
   grid.innerHTML = '';
   
-  // Pegar os modelos mais populares/compatíveis
   const popularModels = allModels
     .filter(model => model.esim)
     .sort((a, b) => {
-      // Priorizar iPhones e Galaxies recentes
       if (a.brand === 'Apple' && b.brand !== 'Apple') return -1;
       if (b.brand === 'Apple' && a.brand !== 'Apple') return 1;
       if (a.brand === 'Samsung' && b.brand !== 'Samsung') return -1;
       if (b.brand === 'Samsung' && a.brand !== 'Samsung') return 1;
       return 0;
     })
-    .slice(0, 12); // Limitar a 12 modelos
+    .slice(0, 12);
   
   popularModels.forEach(model => {
     const div = document.createElement('div');
@@ -712,7 +859,6 @@ function criarQuickSearchGrid() {
     div.textContent = model.name;
     div.onclick = () => {
       document.getElementById('modeloInput').value = model.name;
-      // Selecionar marca automaticamente
       const marcaSelect = document.getElementById('marcaSelect');
       marcaSelect.value = model.brand.toLowerCase();
       atualizarModelos();
@@ -722,13 +868,12 @@ function criarQuickSearchGrid() {
   });
 }
 
-// Atualizar lista de modelos quando marca for selecionada
+// Atualizar lista de modelos
 function atualizarModelos() {
   const marcaSelect = document.getElementById('marcaSelect');
   const modelList = document.getElementById('modelList');
-  const modeloInput = document.getElementById('modeloInput');
-  
   const selectedBrand = marcaSelect.value;
+  
   modelList.innerHTML = '';
   
   if (!selectedBrand) {
@@ -737,7 +882,6 @@ function atualizarModelos() {
     return;
   }
   
-  // Encontrar dispositivos da marca selecionada
   const brandData = devicesDB.devices.find(device => 
     device.brand.toLowerCase() === selectedBrand
   );
@@ -748,11 +892,9 @@ function atualizarModelos() {
     return;
   }
   
-  // Limpar input
-  modeloInput.value = '';
-  
-  // Adicionar modelos à lista
+  document.getElementById('modeloInput').value = '';
   currentModels = brandData.models;
+  
   currentModels.forEach(model => {
     const div = document.createElement('div');
     div.className = `model-item ${model.esim ? 'compatible' : 'not-compatible'}`;
@@ -767,7 +909,7 @@ function atualizarModelos() {
   modelList.classList.add('visible');
 }
 
-// Filtrar modelos conforme digitação
+// Filtrar modelos
 function filtrarModelos() {
   const input = document.getElementById('modeloInput');
   const filter = input.value.toLowerCase();
@@ -775,15 +917,11 @@ function filtrarModelos() {
   
   items.forEach(item => {
     const text = item.textContent.toLowerCase();
-    if (text.includes(filter)) {
-      item.style.display = 'block';
-    } else {
-      item.style.display = 'none';
-    }
+    item.style.display = text.includes(filter) ? 'block' : 'none';
   });
 }
 
-// Selecionar modelo da lista
+// Selecionar modelo
 function selecionarModelo(modelo) {
   document.getElementById('modeloInput').value = modelo;
   const items = document.querySelectorAll('#modelList .model-item');
@@ -805,16 +943,13 @@ function verificarCompatibilidade() {
     return;
   }
   
-  // Mostrar card de resultado
   const resultadoCard = document.getElementById('resultadoCompatibilidade');
   resultadoCard.classList.add('visible');
-  
-  // Configurar título
   document.getElementById('modeloResultado').textContent = modelo;
   
-  // Procurar modelo na base de dados
   let modeloEncontrado = null;
   
+  // Busca exata
   for (const model of allModels) {
     if (modeloLower === model.searchKey || 
         modeloLower.includes(model.searchKey) || 
@@ -824,10 +959,9 @@ function verificarCompatibilidade() {
     }
   }
   
-  // Se não encontrou, tentar busca parcial
+  // Busca parcial
   if (!modeloEncontrado) {
     for (const model of allModels) {
-      // Remover espaços e caracteres especiais para busca mais flexível
       const cleanInput = modeloLower.replace(/[^\w\s]/gi, '');
       const cleanModel = model.searchKey.replace(/[^\w\s]/gi, '');
       
@@ -838,11 +972,9 @@ function verificarCompatibilidade() {
     }
   }
   
-  // Se encontrou, mostrar informações
   if (modeloEncontrado) {
     atualizarResultados(modeloEncontrado, true);
   } else {
-    // Se não encontrou na base
     atualizarResultados({
       brand: 'Desconhecido',
       name: modelo,
@@ -855,7 +987,7 @@ function verificarCompatibilidade() {
   }
 }
 
-// Atualizar resultados na interface
+// Atualizar resultados
 function atualizarResultados(info, encontradoNaBase) {
   // Atualizar ícones
   document.getElementById('statusBase').className = `status-icon ${encontradoNaBase ? 'status-yes' : 'status-no'}`;
@@ -873,7 +1005,7 @@ function atualizarResultados(info, encontradoNaBase) {
   document.getElementById('statusDualSim').className = `status-icon ${info.dual ? 'status-yes' : 'status-no'}`;
   document.getElementById('statusDualSim').textContent = info.dual ? '✅' : '❌';
   
-  // Atualizar badge de status geral
+  // Badge de status
   const statusBadge = document.getElementById('statusBadge');
   if (info.esim && !info.desbloqueio) {
     statusBadge.className = 'result-badge badge-compatible';
@@ -886,7 +1018,7 @@ function atualizarResultados(info, encontradoNaBase) {
     statusBadge.textContent = 'Não Compatível';
   }
   
-  // Atualizar detalhes
+  // Detalhes
   const detalhesDiv = document.getElementById('detalhesCompatibilidade');
   let detalhesHTML = `<p><strong>Marca:</strong> ${info.brand}</p>`;
   
@@ -909,14 +1041,43 @@ function atualizarResultados(info, encontradoNaBase) {
   
   detalhesDiv.innerHTML = detalhesHTML;
   
-  // Scroll para o resultado
+  // Scroll para resultado
   document.getElementById('resultadoCompatibilidade').scrollIntoView({
     behavior: 'smooth',
     block: 'center'
   });
 }
 
-// Show the selected section
+// Preencher modelo rápido
+function preencherModelo(modelo) {
+  document.getElementById('modeloInput').value = modelo;
+  if (modelo.toLowerCase().includes('iphone')) {
+    document.getElementById('marcaSelect').value = 'apple';
+  } else if (modelo.toLowerCase().includes('galaxy')) {
+    document.getElementById('marcaSelect').value = 'samsung';
+  } else if (modelo.toLowerCase().includes('pixel')) {
+    document.getElementById('marcaSelect').value = 'google';
+  }
+  atualizarModelos();
+  verificarCompatibilidade();
+}
+
+// Pesquisar externamente
+function pesquisarExterno() {
+  const modelo = document.getElementById('modeloInput').value;
+  if (!modelo) {
+    alert('Digite um modelo para pesquisar online.');
+    return;
+  }
+  
+  const iframe = document.getElementById('framePesquisa');
+  iframe.style.display = 'block';
+  const query = encodeURIComponent(`${modelo} eSIM compatibility`);
+  const url = `https://www.google.com/search?q=${query}`;
+  iframe.src = url;
+}
+
+// Mostrar seção
 function show(id, btn){
   const cards = document.querySelectorAll('.card');
   cards.forEach(card => {
@@ -931,12 +1092,18 @@ function show(id, btn){
   });
   
   if (btn) btn.classList.add('active');
+  
+  // Esconder iframe ao mudar de aba
+  if (id !== 'pesquisa') {
+    document.getElementById('framePesquisa').style.display = 'none';
+    document.getElementById('resultadoCompatibilidade').classList.remove('visible');
+  }
 }
 
-// Carregar conteúdo
+// Inicializar ao carregar
 window.onload = function() {
   initInterface();
-  show('pesquisa');
+  show('regras', document.querySelector('.menu-item'));
 };
 </script>
 
