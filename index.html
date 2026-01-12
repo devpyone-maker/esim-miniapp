@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Royal eSIM Bot</title>
+  <style>
+    :root {
+      --primary: #00bfff;
+      --secondary: #1E1E1E;
+      --dark: #121212;
+      --light: #2E2E2E;
+      --text: #ffffff;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: Arial, sans-serif;
+      background: var(--dark);
+      color: var(--text);
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    /* Header */
+    .header {
+      text-align: center;
+      padding: 20px 0;
+      margin-bottom: 20px;
+      border-bottom: 2px solid var(--primary);
+    }
+    
+    .header h1 {
+      color: var(--primary);
+      margin-bottom: 5px;
+    }
+    
+    /* Tabs */
+    .tabs {
+      display: flex;
+      background: var(--secondary);
+      border-radius: 10px 10px 0 0;
+      overflow: hidden;
+    }
+    
+    .tablink {
+      flex: 1;
+      padding: 15px;
+      border: none;
+      background: transparent;
+      color: var(--text);
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    
+    .tablink:hover {
+      background: var(--light);
+    }
+    
+    .tablink.active {
+      background: var(--light);
+      color: var(--primary);
+    }
+    
+    /* Tab Content */
+    .tab {
+      display: none;
+      padding: 30px;
+      background: var(--light);
+      border-radius: 0 0 10px 10px;
+      min-height: 400px;
+    }
+    
+    .tab.active {
+      display: block;
+    }
+    
+    /* Regras */
+    .rules-list {
+      list-style: none;
+      padding: 0;
+    }
+    
+    .rules-list li {
+      padding: 12px 15px;
+      margin-bottom: 10px;
+      background: var(--secondary);
+      border-left: 3px solid var(--primary);
+      display: flex;
+      align-items: center;
+    }
+    
+    .rules-list li::before {
+      content: '•';
+      color: var(--primary);
+      font-weight: bold;
+      margin-right: 10px;
+      font-size: 20px;
+    }
+    
+    /* Pesquisa */
+    .search-box {
+      margin-bottom: 20px;
+    }
+    
+    .search-box input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 10px;
+      border: 2px solid #333;
+      border-radius: 5px;
+      background: var(--secondary);
+      color: var(--text);
+      font-size: 16px;
+    }
+    
+    .search-box input:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+    
+    .search-box button {
+      width: 100%;
+      padding: 12px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    
+    .search-box button:hover {
+      background: #0099cc;
+    }
+    
+    /* Iframe */
+    .iframe-container {
+      background: var(--secondary);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 20px;
+    }
+    
+    .iframe-header {
+      padding: 10px 15px;
+      background: var(--dark);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .iframe-header h3 {
+      color: var(--primary);
+    }
+    
+    .iframe-controls button {
+      background: none;
+      border: 1px solid #555;
+      color: var(--text);
+      padding: 5px 10px;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    
+    .iframe-controls button:hover {
+      background: var(--primary);
+      border-color: var(--primary);
+    }
+    
+    iframe {
+      width: 100%;
+      height: 400px;
+      border: none;
+    }
+    
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 20px;
+      margin-top: 30px;
+      color: #888;
+      font-size: 14px;
+    }
+    
+    /* Responsive */
+    @media (max-width: 600px) {
+      .container {
+        padding: 10px;
+      }
+      
+      .tab {
+        padding: 20px;
+      }
+      
+      iframe {
+        height: 300px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <h1>📱 Royal eSIM Bot</h1>
+      <p>Verifique compatibilidade e regras de uso</p>
+    </div>
+    
+    <!-- Tabs Navigation -->
+    <div class="tabs">
+      <button class="tablink active" onclick="openTab('regras')">📋 Regras</button>
+      <button class="tablink" onclick="openTab('pesquisa')">🔍 Pesquisar Celular</button>
+    </div>
+    
+    <!-- Página de Regras -->
+    <div id="regras" class="tab active">
+      <h2 style="margin-bottom: 20px; color: var(--primary);">📜 Regras do Bot</h2>
+      
+      <ul class="rules-list">
+        <li>Compras apenas via Pix</li>
+        <li>Verifique compatibilidade do celular antes de comprar</li>
+        <li>Suporte apenas no grupo oficial</li>
+        <li>Não compartilhe seu eSIM com terceiros</li>
+        <li>Reembolsos em até 24h após compra</li>
+        <li>Violar regras pode resultar em banimento</li>
+      </ul>
+      
+      <div style="margin-top: 25px; padding: 15px; background: var(--secondary); border-radius: 5px;">
+        <p style="color: var(--primary); font-weight: bold; margin-bottom: 5px;">Importante:</p>
+        <p>Certifique-se que seu celular suporta eSIM. Use a aba "Pesquisar Celular" para verificar.</p>
+      </div>
+    </div>
+    
+    <!-- Página de Pesquisa -->
+    <div id="pesquisa" class="tab">
+      <h2 style="margin-bottom: 20px; color: var(--primary);">🔍 Verificar Compatibilidade</h2>
+      
+      <div class="search-box">
+        <p style="margin-bottom: 15px; color: #ccc;">Digite o modelo do seu celular para pesquisar se é compatível com eSIM:</p>
+        
+        <input type="text" id="searchBox" 
+               placeholder="Ex: iPhone 14, Samsung S23, Motorola Edge 40, Xiaomi 13..."
+               onkeypress="handleEnter(event)">
+        
+        <button onclick="searchDevice()">🔍 Pesquisar no Google</button>
+        
+        <div style="margin-top: 15px; color: #888; font-size: 14px;">
+          <p>💡 Dica: Pesquise "modelo + eSIM compatible"</p>
+        </div>
+      </div>
+      
+      <div class="iframe-container">
+        <div class="iframe-header">
+          <h3>Resultados da Pesquisa</h3>
+          <div class="iframe-controls">
+            <button onclick="refreshIframe()">Atualizar</button>
+          </div>
+        </div>
+        <iframe id="searchFrame" src="about:blank"></iframe>
+      </div>
+    </div>
+    
+    <!-- Footer -->
+    <div class="footer">
+      <p>© 2024 Royal eSIM Bot | Apenas para fins informativos</p>
+    </div>
+  </div>
+
+  <script>
+    function openTab(tabId) {
+      // Esconde todas as tabs
+      document.querySelectorAll('.tab').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      
+      // Remove classe active de todos os botões
+      document.querySelectorAll('.tablink').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      
+      // Mostra a tab selecionada
+      document.getElementById(tabId).classList.add('active');
+      
+      // Adiciona classe active ao botão clicado
+      event.currentTarget.classList.add('active');
+      
+      // Se for a tab de pesquisa, limpa o iframe
+      if (tabId === 'pesquisa') {
+        document.getElementById('searchFrame').src = 'about:blank';
+      }
+    }
+    
+    function searchDevice() {
+      const searchTerm = document.getElementById('searchBox').value;
+      if (searchTerm.trim() !== '') {
+        const encodedQuery = encodeURIComponent(searchTerm + ' eSIM compatible');
+        const searchUrl = `https://www.google.com/search?q=${encodedQuery}`;
+        document.getElementById('searchFrame').src = searchUrl;
+      } else {
+        alert('Por favor, digite o modelo do celular.');
+      }
+    }
+    
+    function refreshIframe() {
+      const iframe = document.getElementById('searchFrame');
+      if (iframe.src && iframe.src !== 'about:blank') {
+        iframe.src = iframe.src;
+      }
+    }
+    
+    function handleEnter(event) {
+      if (event.key === 'Enter') {
+        searchDevice();
+      }
+    }
+    
+    // Focar no campo de pesquisa quando mudar para a aba
+    document.querySelectorAll('.tablink')[1].addEventListener('click', function() {
+      setTimeout(() => {
+        document.getElementById('searchBox').focus();
+      }, 100);
+    });
+  </script>
+</body>
+</html>
