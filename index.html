@@ -116,7 +116,7 @@ body{
 }
 
 /* SEARCH */
-input{
+input, select{
   width:100%;
   padding:14px;
   border-radius:12px;
@@ -141,6 +141,12 @@ button{
 
 button:hover{
   opacity:0.9;
+}
+
+button.secondary{
+  background:var(--secondary);
+  color:var(--text);
+  margin-top:10px;
 }
 
 /* IFRAME */
@@ -219,6 +225,109 @@ iframe{
 
 .menu-item.active{
   color:var(--primary);
+}
+
+/* COMPATIBILITY RESULT */
+.result-card{
+  background:var(--secondary);
+  border-radius:12px;
+  padding:20px;
+  margin-top:20px;
+  display:none;
+}
+
+.result-card.visible{
+  display:block;
+  animation:fadeIn 0.5s ease;
+}
+
+.result-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:15px;
+}
+
+.result-title{
+  font-size:18px;
+  font-weight:bold;
+}
+
+.result-badge{
+  padding:5px 15px;
+  border-radius:20px;
+  font-size:14px;
+  font-weight:bold;
+}
+
+.badge-compatible{
+  background:var(--success);
+  color:#000;
+}
+
+.badge-not-compatible{
+  background:var(--danger);
+  color:#fff;
+}
+
+.badge-partial{
+  background:var(--warning);
+  color:#000;
+}
+
+.compatibility-list{
+  list-style:none;
+}
+
+.compatibility-list li{
+  padding:10px;
+  border-bottom:1px solid rgba(255,255,255,0.1);
+  display:flex;
+  justify-content:space-between;
+}
+
+.compatibility-list li:last-child{
+  border-bottom:none;
+}
+
+.status-icon{
+  font-size:20px;
+}
+
+.status-yes{
+  color:var(--success);
+}
+
+.status-no{
+  color:var(--danger);
+}
+
+.status-partial{
+  color:var(--warning);
+}
+
+/* SEARCH SUGGESTIONS */
+.suggestions{
+  display:grid;
+  grid-template-columns:repeat(2, 1fr);
+  gap:10px;
+  margin-top:15px;
+}
+
+.suggestion-btn{
+  padding:10px;
+  background:var(--secondary);
+  border:none;
+  border-radius:8px;
+  color:var(--text);
+  cursor:pointer;
+  text-align:center;
+  transition:background 0.2s;
+}
+
+.suggestion-btn:hover{
+  background:var(--primary);
+  color:#000;
 }
 
 /* SCROLLBAR */
@@ -372,11 +481,70 @@ iframe{
 
 <!-- PESQUISA -->
 <div id="pesquisa" class="card">
-  <h2 class="title">🔍 Pesquisar Celular</h2>
-  <input id="searchBox" placeholder="Ex: iPhone 14, Samsung S23, Google Pixel 7">
-  <button onclick="search()">Pesquisar compatibilidade</button>
-
-  <iframe id="frame"></iframe>
+  <h2 class="title">🔍 Verificar Compatibilidade</h2>
+  
+  <div class="highlight-box">
+    <p><strong>Importante:</strong> Verifique se seu celular suporta eSIM antes de comprar!</p>
+  </div>
+  
+  <select id="marcaSelect">
+    <option value="">Selecione a marca...</option>
+    <option value="apple">Apple (iPhone)</option>
+    <option value="samsung">Samsung</option>
+    <option value="google">Google Pixel</option>
+    <option value="xiaomi">Xiaomi</option>
+    <option value="motorola">Motorola</option>
+    <option value="outro">Outra marca</option>
+  </select>
+  
+  <input id="modeloInput" placeholder="Ex: iPhone 14, Galaxy S23, Pixel 7, etc.">
+  
+  <button onclick="verificarCompatibilidade()">Verificar Compatibilidade</button>
+  
+  <div class="suggestions">
+    <div class="suggestion-btn" onclick="preencherModelo('iPhone 14')">iPhone 14</div>
+    <div class="suggestion-btn" onclick="preencherModelo('iPhone 15')">iPhone 15</div>
+    <div class="suggestion-btn" onclick="preencherModelo('Galaxy S23')">Galaxy S23</div>
+    <div class="suggestion-btn" onclick="preencherModelo('Pixel 7')">Pixel 7</div>
+  </div>
+  
+  <!-- RESULTADO DA COMPATIBILIDADE -->
+  <div id="resultadoCompatibilidade" class="result-card">
+    <div class="result-header">
+      <div class="result-title" id="modeloResultado">Modelo</div>
+      <div class="result-badge" id="statusBadge">Status</div>
+    </div>
+    
+    <ul class="compatibility-list">
+      <li>
+        <span>Suporte a eSIM</span>
+        <span class="status-icon" id="statusESIM">❓</span>
+      </li>
+      <li>
+        <span>Compatível com nosso sistema</span>
+        <span class="status-icon" id="statusSistema">❓</span>
+      </li>
+      <li>
+        <span>Requer desbloqueio de operadora</span>
+        <span class="status-icon" id="statusDesbloqueio">❓</span>
+      </li>
+      <li>
+        <span>Suporte a dual SIM (eSIM + físico)</span>
+        <span class="status-icon" id="statusDualSim">❓</span>
+      </li>
+    </ul>
+    
+    <div id="detalhesCompatibilidade" style="margin-top:15px; padding-top:15px; border-top:1px solid rgba(255,255,255,0.1);">
+      <!-- Detalhes serão preenchidos por JavaScript -->
+    </div>
+    
+    <button class="secondary" onclick="pesquisarExterno()" style="margin-top:15px;">
+      🔍 Pesquisar mais informações online
+    </button>
+  </div>
+  
+  <!-- IFRAME PARA PESQUISA EXTERNA -->
+  <iframe id="framePesquisa" style="display:none; margin-top:20px;"></iframe>
 </div>
 
 </div>
@@ -415,6 +583,38 @@ iframe{
 </div>
 
 <script>
+// Database de compatibilidade
+const compatibilidadeDB = {
+  // Apple
+  "iphone xr": { esim: true, sistema: true, desbloqueio: true, dual: false, detalhes: "iPhone XR suporta eSIM apenas em modelos desbloqueados." },
+  "iphone xs": { esim: true, sistema: true, desbloqueio: true, dual: false, detalhes: "iPhone XS e XS Max suportam eSIM." },
+  "iphone 11": { esim: true, sistema: true, desbloqueio: true, dual: false, detalhes: "Todos os modelos iPhone 11 suportam eSIM." },
+  "iphone 12": { esim: true, sistema: true, desbloqueio: true, dual: true, detalhes: "iPhone 12 e posteriores suportam dual SIM (eSIM + físico)." },
+  "iphone 13": { esim: true, sistema: true, desbloqueio: true, dual: true, detalhes: "Compatível com eSIM e dual SIM." },
+  "iphone 14": { esim: true, sistema: true, desbloqueio: false, dual: true, detalhes: "Totalmente compatível com nosso sistema. Modelos dos EUA são apenas eSIM." },
+  "iphone 15": { esim: true, sistema: true, desbloqueio: false, dual: true, detalhes: "Totalmente compatível. Todos os modelos suportam eSIM." },
+  
+  // Samsung
+  "galaxy s20": { esim: true, sistema: true, desbloqueio: true, dual: true, detalhes: "Apenas modelos internacionais/desbloqueados." },
+  "galaxy s21": { esim: true, sistema: true, desbloqueio: true, dual: true, detalhes: "Modelos desbloqueados e alguns de operadora." },
+  "galaxy s22": { esim: true, sistema: true, desbloqueio: true, dual: true, detalhes: "Compatível, verifique se não é modelo brasileiro (não suporta)." },
+  "galaxy s23": { esim: true, sistema: true, desbloqueio: false, dual: true, detalhes: "Totalmente compatível com nosso sistema." },
+  "galaxy z flip": { esim: true, sistema: true, desbloqueio: true, dual: true, detalhes: "Modelos internacionais suportam eSIM." },
+  "galaxy z fold": { esim: true, sistema: true, desbloqueio: true, dual: true, detalhes: "Modelos internacionais suportam eSIM." },
+  
+  // Google Pixel
+  "pixel 3": { esim: true, sistema: true, desbloqueio: true, dual: false, detalhes: "Pixel 3 e posteriores suportam eSIM." },
+  "pixel 4": { esim: true, sistema: true, desbloqueio: true, dual: false, detalhes: "Compatível com eSIM." },
+  "pixel 5": { esim: true, sistema: true, desbloqueio: true, dual: false, detalhes: "Compatível com eSIM." },
+  "pixel 6": { esim: true, sistema: true, desbloqueio: false, dual: true, detalhes: "Totalmente compatível. Suporta dual SIM." },
+  "pixel 7": { esim: true, sistema: true, desbloqueio: false, dual: true, detalhes: "Totalmente compatível com nosso sistema." },
+  "pixel 8": { esim: true, sistema: true, desbloqueio: false, dual: true, detalhes: "Totalmente compatível. Excelente suporte a eSIM." },
+  
+  // Outros
+  "motorola razr": { esim: true, sistema: true, desbloqueio: true, dual: true, detalhes: "Modelos internacionais do Motorola RAZR suportam eSIM." },
+  "xiaomi 13": { esim: true, sistema: true, desbloqueio: true, dual: true, detalhes: "Modelos internacionais suportam eSIM." },
+};
+
 // Show the selected section
 function show(id, btn){
   // Hide all cards
@@ -434,32 +634,197 @@ function show(id, btn){
   
   btn.classList.add('active');
   
-  // Clear iframe if not on search page
+  // Hide iframe and result card when switching tabs
   if (id !== 'pesquisa') {
-    document.getElementById('frame').src = '';
+    document.getElementById('framePesquisa').style.display = 'none';
+    document.getElementById('resultadoCompatibilidade').classList.remove('visible');
   }
 }
 
-// Search function
-function search(){
-  const query = document.getElementById('searchBox').value;
-  if(!query) return alert('Digite o modelo do celular');
+// Preencher modelo com sugestão
+function preencherModelo(modelo) {
+  document.getElementById('modeloInput').value = modelo;
+  // Tentar selecionar a marca automaticamente
+  if (modelo.toLowerCase().includes('iphone')) {
+    document.getElementById('marcaSelect').value = 'apple';
+  } else if (modelo.toLowerCase().includes('galaxy')) {
+    document.getElementById('marcaSelect').value = 'samsung';
+  } else if (modelo.toLowerCase().includes('pixel')) {
+    document.getElementById('marcaSelect').value = 'google';
+  }
+}
+
+// Verificar compatibilidade
+function verificarCompatibilidade() {
+  const marca = document.getElementById('marcaSelect').value;
+  const modelo = document.getElementById('modeloInput').value.toLowerCase().trim();
   
-  const searchQuery = query + ' eSIM compatible site:gsmarena.com OR site:apple.com';
-  const url = `https://duckduckgo.com/?q=${encodeURIComponent(searchQuery)}&ia=web`;
-  document.getElementById('frame').src = url;
+  if (!marca || !modelo) {
+    alert('Por favor, selecione a marca e digite o modelo do celular.');
+    return;
+  }
+  
+  // Esconder iframe de pesquisa externa
+  document.getElementById('framePesquisa').style.display = 'none';
+  
+  // Mostrar card de resultado
+  const resultadoCard = document.getElementById('resultadoCompatibilidade');
+  resultadoCard.classList.add('visible');
+  
+  // Configurar título
+  document.getElementById('modeloResultado').textContent = 
+    document.getElementById('modeloInput').value;
+  
+  // Procurar no banco de dados
+  let encontrado = false;
+  let info = null;
+  
+  for (const [key, value] of Object.entries(compatibilidadeDB)) {
+    if (modelo.includes(key)) {
+      encontrado = true;
+      info = value;
+      break;
+    }
+  }
+  
+  // Se não encontrou no banco de dados, fazer uma estimativa
+  if (!encontrado) {
+    info = estimarCompatibilidade(marca, modelo);
+  }
+  
+  // Atualizar interface com os resultados
+  atualizarResultados(info);
 }
 
-// Allow Enter key to trigger search
-document.getElementById('searchBox').addEventListener('keypress', function(e){
-  if(e.key === 'Enter'){
-    search();
+// Estimar compatibilidade quando não estiver no banco de dados
+function estimarCompatibilidade(marca, modelo) {
+  const ano = extrairAno(modelo);
+  let esim = false;
+  let sistema = false;
+  let desbloqueio = true;
+  let dual = false;
+  let detalhes = "Informações específicas não disponíveis para este modelo.";
+  
+  // Estimativas baseadas na marca e ano aproximado
+  switch(marca) {
+    case 'apple':
+      if (ano >= 2018) {
+        esim = true;
+        sistema = true;
+        desbloqueio = (ano < 2022);
+        dual = (ano >= 2020);
+        detalhes = `iPhone ${ano >= 2020 ? 'compatível' : 'possivelmente compatível'} com eSIM. Modelos mais antigos podem requerer desbloqueio.`;
+      }
+      break;
+      
+    case 'samsung':
+      if (ano >= 2020) {
+        esim = true;
+        sistema = true;
+        desbloqueio = true;
+        dual = true;
+        detalhes = "Samsung geralmente suporta eSIM apenas em modelos internacionais/desbloqueados.";
+      }
+      break;
+      
+    case 'google':
+      if (ano >= 2018) {
+        esim = true;
+        sistema = true;
+        desbloqueio = (ano < 2021);
+        dual = (ano >= 2021);
+        detalhes = "Pixel geralmente tem bom suporte a eSIM.";
+      }
+      break;
+      
+    default:
+      detalhes = "Para marcas menos comuns, verifique nas configurações do aparelho se há opção de eSIM ou pesquise online.";
   }
-});
+  
+  return { esim, sistema, desbloqueio, dual, detalhes };
+}
 
-// Load default content
+// Extrair ano aproximado do modelo
+function extrairAno(modelo) {
+  const match = modelo.match(/(\d{2,4})/);
+  if (match) {
+    let ano = parseInt(match[1]);
+    // Ajustar anos de 2 dígitos
+    if (ano < 100) {
+      if (ano > 30) ano += 1900; // Provavelmente ano como 95, 96, etc.
+      else ano += 2000; // Provavelmente ano como 08, 15, 22, etc.
+    }
+    return ano;
+  }
+  
+  // Tentar identificar por nome
+  if (modelo.includes('twenty') || modelo.includes('20')) return 2020;
+  if (modelo.includes('twentyone') || modelo.includes('21')) return 2021;
+  if (modelo.includes('twentytwo') || modelo.includes('22')) return 2022;
+  if (modelo.includes('twentythree') || modelo.includes('23')) return 2023;
+  if (modelo.includes('twentyfour') || modelo.includes('24')) return 2024;
+  
+  return 2020; // Ano padrão
+}
+
+// Atualizar resultados na interface
+function atualizarResultados(info) {
+  // Atualizar ícones
+  document.getElementById('statusESIM').className = `status-icon ${info.esim ? 'status-yes' : 'status-no'}`;
+  document.getElementById('statusESIM').textContent = info.esim ? '✅' : '❌';
+  
+  document.getElementById('statusSistema').className = `status-icon ${info.sistema ? 'status-yes' : 'status-no'}`;
+  document.getElementById('statusSistema').textContent = info.sistema ? '✅' : '❌';
+  
+  document.getElementById('statusDesbloqueio').className = `status-icon ${info.desbloqueio ? 'status-warning' : 'status-yes'}`;
+  document.getElementById('statusDesbloqueio').textContent = info.desbloqueio ? '⚠️' : '✅';
+  
+  document.getElementById('statusDualSim').className = `status-icon ${info.dual ? 'status-yes' : 'status-no'}`;
+  document.getElementById('statusDualSim').textContent = info.dual ? '✅' : '❌';
+  
+  // Atualizar badge de status geral
+  const statusBadge = document.getElementById('statusBadge');
+  if (info.esim && info.sistema && !info.desbloqueio) {
+    statusBadge.className = 'result-badge badge-compatible';
+    statusBadge.textContent = 'Compatível';
+  } else if (info.esim && info.sistema) {
+    statusBadge.className = 'result-badge badge-partial';
+    statusBadge.textContent = 'Parcialmente';
+  } else {
+    statusBadge.className = 'result-badge badge-not-compatible';
+    statusBadge.textContent = 'Não Compatível';
+  }
+  
+  // Atualizar detalhes
+  document.getElementById('detalhesCompatibilidade').innerHTML = `
+    <p><strong>Detalhes:</strong> ${info.detalhes}</p>
+    ${!info.esim ? '<p class="highlight-box warning" style="padding:10px; margin-top:10px;">⚠️ Este modelo NÃO suporta eSIM. Não será possível usar nossos serviços.</p>' : ''}
+    ${info.desbloqueio ? '<p class="highlight-box warning" style="padding:10px; margin-top:10px;">⚠️ Pode requerer desbloqueio de operadora para funcionar com eSIM.</p>' : ''}
+  `;
+}
+
+// Pesquisar informações externas
+function pesquisarExterno() {
+  const modelo = document.getElementById('modeloInput').value;
+  if (!modelo) {
+    alert('Digite um modelo para pesquisar online.');
+    return;
+  }
+  
+  // Mostrar iframe
+  const iframe = document.getElementById('framePesquisa');
+  iframe.style.display = 'block';
+  
+  // Criar URL de pesquisa
+  const query = encodeURIComponent(`${modelo} eSIM compatibility`);
+  const url = `https://www.google.com/search?q=${query}`;
+  
+  // Carregar no iframe
+  iframe.src = url;
+}
+
+// Carregar conteúdo padrão
 window.onload = function() {
-  // Show regras by default
   show('regras', document.querySelector('.menu-item'));
 };
 </script>
